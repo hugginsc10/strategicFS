@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import CustomButton from '../custom-button/custom-button';
-
+import { Button } from '@material-ui/core';
 
 class DataContainer extends Component {
   state = {
@@ -20,7 +19,10 @@ class DataContainer extends Component {
       <div>
         DataContainer
         <div className='addDebt'>
-          <CustomButton/>
+        
+          <Button variant='contained' color='primary'>
+            Add Debt
+          </Button>
         </div>
       </div>
     )
