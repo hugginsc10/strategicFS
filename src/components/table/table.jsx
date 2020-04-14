@@ -28,7 +28,7 @@ const TableData = (props) => {
       .then(res => res.json())
       .then(bankData => setBankData(bankData))
       }, [] )
-
+    
     const [selected, setSelected] = React.useState([]);
     const handleClick = (event, name) => {
       const selectedIndex = selected.indexOf(name);
@@ -92,65 +92,77 @@ const TableData = (props) => {
         label: "Balance"
       }
     ];
-    return (
-      <div>
-        <TableHead>
-          <TableRow>
-            <TableCell padding="checkbox">
-              <Checkbox
-                indeterminate={numSelected > 0 && numSelected < rowCount}
-                checked={rowCount > 0 && numSelected === rowCount}
-                onChange={onSelectAllClick}
-                inputProps={{ 'aria-label': 'select all rows' }} />
+  return (
+    <div>
+      <TableHead>
+        <TableRow>
+          <TableCell padding="checkbox">
+            <Checkbox
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={rowCount > 0 && numSelected === rowCount}
+              onChange={onSelectAllClick}
+              inputProps={{ "aria-label": "select all rows" }}
+            />
+          </TableCell>
+          {columnHeads.map(head => (
+            <TableCell
+              key={head.id}
+              align={head.numeric ? "right" : "left"}
+              padding={head.disablePadding ? "none" : "default"}
+              sortDirection={orderBy === head.id ? order : false}
+            >
+              {head.label}
+              {orderBy === head.id ? (
+                <span className={classes.visuallyHidden}>
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
+                </span>
+              ) : null}
             </TableCell>
-            {columnHeads.map((head) => (
-              <TableCell key={head.id}
-                align={head.numeric ? 'right' : 'left'}
-                padding={head.disablePadding ? 'none' : 'default'}
-                sortDirection={orderBy === head.id ? order : false}>
-                {head.label}
-                {orderBy === head.id ? (
-                  <span className={classes.visuallyHidden}>
-                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                  </span>
-                ) : null}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {bankData.length > 0 ? (
-            bankData.map((data, idx) => {
-            const labelId = `enhanced-table-checkbox-${idx}`;
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {bankData.length > 0
+          ? bankData.map((data, idx) => {
+              const labelId = `enhanced-table-checkbox-${idx}`;
 
               return (
                 <TableRow
                   hover
-                  onClick={(e) => handleClick(e, data.creditorName)}
+                  onClick={e => handleClick(e, data.creditorName)}
                   role="checkbox"
                   aria-checked={isItemSelected}
                   tabIndex={-1}
-                  key={data.creditorName}
-                  selected={isItemSelected}>
+                  key={data.id}
+                  selected={isItemSelected}
+                >
                   <TableCell padding="checkbox">
                     <Checkbox
                       checked={isItemSelected}
-                      inputProps={{ 'aria-labelledby': labelId }}
+                      inputProps={{ "aria-labelledby": labelId }}
                     />
                   </TableCell>
-                  <TableCell component="th" id={labelId} scope="row" padding="none">
+                  <TableCell
+                    component="th"
+                    id={labelId}
+                    scope="row"
+                    padding='15px'
+                  >
                     {data.creditorName}
                   </TableCell>
                   <TableCell align="right">{data.firstName}</TableCell>
                   <TableCell align="right">{data.lastName}</TableCell>
-                  <TableCell align="right">{data.minPayPercent}</TableCell>
-                  <TableCell align="right">{data.balance}</TableCell>
+                  <TableCell align="right">
+                    {data.minPaymentPercentage.toFixed(2)}
+                  </TableCell>
+                  <TableCell align="right">${data.balance.toFixed(2)}</TableCell>
                 </TableRow>
-              )
-            })) : []}
-        </TableBody>
-      </div>
-    )
+              );
+            })
+          : []}
+      </TableBody>
+    </div>
+  );
   }
 ;
 export default TableData;

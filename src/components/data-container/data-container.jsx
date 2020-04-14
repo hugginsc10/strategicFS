@@ -1,17 +1,13 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
 import TableData from '../table/table';
+import AddDebt from '../add-debt/add-debt';
 
-
-  const DataContainer = () => {
+  const DataContainer = (props) => {
     return (
       <div>
-        <div className='addDebt'>
-          <TableData />
-          <Button variant='contained' color='primary'>
-            Add Debt
-          </Button>
-        </div>
+       <TableData />
+        <AddDebt/>
       </div>
     )
   }
@@ -19,4 +15,4 @@ import TableData from '../table/table';
 
 
 
-export default DataContainer
+export default DataContainer;
