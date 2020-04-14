@@ -5,12 +5,13 @@ import {
 } from 'react-router-dom';
 import HomePage from './pages/homepage/homepage';
 import './App.css'
-
+import Header from './components/header/header';
 
 class App extends Component {
   render() {
     return (
-     <div>
+      <div>
+        <Header/>
         <Router>
           <Route exact path='/' component={HomePage} />
        </Router>
