@@ -29,7 +29,17 @@ const TableData = (props) => {
       .then(bankData => setBankData(bankData))
       }, [] )
     
-    const [selected, setSelected] = React.useState([]);
+  const [selected, setSelected] = React.useState([]);
+
+  const handleSelectAllClick = event => {
+    if (event.target.checked) {
+      const newSelecteds = bankData.map(n => n.id);
+      setSelected(newSelecteds);
+      return;
+      }
+      setSelected([]);
+    };
+
     const handleClick = (event, name) => {
       const selectedIndex = selected.indexOf(name);
       let newSelected = [];
@@ -101,7 +111,7 @@ const TableData = (props) => {
               <Checkbox
                 indeterminate={numSelected > 0 && numSelected < rowCount}
                 checked={rowCount > 0 && numSelected === rowCount}
-                onChange={onSelectAllClick}
+                onChange={handleSelectAllClick}
                 inputProps={{ "aria-label": "select all rows" }}
               />
             </TableCell>
@@ -127,12 +137,13 @@ const TableData = (props) => {
         <TableBody>
           {bankData.length > 0
             ? bankData.map((data, idx) => {
+              const isItemSelected = isSelected(data.id);
                 const labelId = `enhanced-table-checkbox-${idx}`;
 
                 return (
                   <TableRow
                     hover
-                    onClick={e => handleClick(e, data.creditorName)}
+                    onClick={e => handleClick(e, data.id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
@@ -145,7 +156,10 @@ const TableData = (props) => {
                         inputProps={{ "aria-labelledby": labelId }}
                       />
                     </TableCell>
-                    <TableCell component="th" id={labelId} scope="row">
+                    <TableCell component="th"
+                      id={labelId}
+                      scope="row"
+                      padding="none">
                       {data.creditorName}
                     </TableCell>
                     <TableCell align="right">{data.firstName}</TableCell>
