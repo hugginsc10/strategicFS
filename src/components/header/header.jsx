@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import {Link} from '@material-ui/core';
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
   root: {

@@ -1,11 +1,11 @@
 import React from 'react'
 import DataContainer from '../../components/data-container/data-container';
+import TableData from '../../components/table/table';
 
-
-const HomePage = () => {
+const HomePage = (props) => {
   return (
     <div>
-      <DataContainer/>
+      <TableData />
     </div>
   )
 }
