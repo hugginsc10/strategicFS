@@ -14,12 +14,16 @@ import {
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    padding: '0'
   },
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(2),
-    width: '25ch',
+    textAlign: 'right'
+  },
+  addDebtButton: {
+    width: "10vw"
   }
 }))
 const AddDebt = ({
@@ -48,7 +52,7 @@ const AddDebt = ({
 
 
   return (
-    <div className={classes.root}>
+    <React.Fragment>
       {newData.map((data, idx) => {
         const labelId = `enhanced-table-checkbox-${idx}`;
         return (
@@ -60,6 +64,7 @@ const AddDebt = ({
             tabIndex={-1}
             key={data.id}
             selected={isItemSelected}
+            disablePadding='true'
           >
             <TableCell padding="checkbox">
               <Checkbox
@@ -97,7 +102,7 @@ const AddDebt = ({
             <TableCell align="right">
               <TextField
                 id="standard-secondary"
-                label="Min Pmt Percentage"
+                label="Min Pmt %"
                 className={classes.textField}
                 value={blankForm.minPaymentPercentage}
                 onChange={onHandleChange}
@@ -114,16 +119,18 @@ const AddDebt = ({
             </TableCell>
           </TableRow>
         );
-        })}
-    <Button
-      variant='contained'
-      color='primary'
-      size='small'
-      onClick={addDebtData}>
+      })}
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          onClick={addDebtData}
+          >
         Add Debt
-      </Button>
-    </div>
-  )
+        </Button>
+    </React.Fragment>
+     
+  );
 }
 
 export default AddDebt;

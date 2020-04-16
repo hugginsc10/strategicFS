@@ -5,16 +5,12 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Checkbox,
-  TableContainer,
-  TextField,
-  Input,
-  Visibility
+  Checkbox
 }
   from "@material-ui/core/";
 import { makeStyles } from '@material-ui/core/';
 import AddDebt from '../add-debt/add-debt';
-
+import './table.scss';
 const API_URL =
   "https://raw.githubusercontent.com/StrategicFS/Recruitment/master/data.json"
 
@@ -22,11 +18,16 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
+    padding: '0'
+  },
+  checkbox: {
+    width: '90px',
+    justifyContent: 'left',
   }
 }))
 
 const TableData = (props) => {
-  const tableClass = useStyles();
+  const cssClass = useStyles();
   const [bankData, setBankData] = useState({
     creditorName: '',
     firstName: '',
@@ -93,36 +94,36 @@ const TableData = (props) => {
       {
         id: "Creditor",
         numeric: false,
-        disablePadding: false,
+        disablePadding: true,
         label: "Creditor"
       },
       {
         id: "firstName",
         numeric: true,
-        disablePadding: false,
+        disablePadding: true,
         label: "First Name"
       },
       {
         id: "lastName",
         numeric: true,
-        disablePadding: false,
+        disablePadding: true,
         label: "Last Name"
       },
       {
         id: "minPayPercent",
         numeric: true,
-        disablePadding: false,
+        disablePadding: true,
         label: "Min Pay %"
       },
       {
         id: "balance",
         numeric: true,
-        disablePadding: false,
+        disablePadding: true,
         label: "Balance"
       }
     ];
   return (
-    <div className={tableClass.root}>
+    <div className={cssClass.root}>
       <Table>
         <TableHead>
           <TableRow>
@@ -132,6 +133,7 @@ const TableData = (props) => {
                 checked={rowCount > 0 && numSelected === rowCount}
                 onChange={handleSelectAllClick}
                 inputProps={{ "aria-label": "select all rows" }}
+                className={cssClass.checkbox}
               />
             </TableCell>
             {columnHeads.map(head => (
@@ -154,49 +156,54 @@ const TableData = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {bankData.length > 0 ?
-            bankData.map((data, idx) => {
-            const isItemSelected = isSelected(data.id);
-            const labelId = `enhanced-table-checkbox-${idx}`;
+          {bankData.length > 0
+            ? bankData.map((data, idx) => {
+                const isItemSelected = isSelected(data.id);
+                const labelId = `enhanced-table-checkbox-${idx}`;
 
-            return (
-              <TableRow
-                hover
-                onClick={e => handleClick(e, data.id)}
-                role="checkbox"
-                aria-checked={isItemSelected}
-                tabIndex={-1}
-                key={data.id}
-                selected={isItemSelected}
-              >
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={isItemSelected}
-                    inputProps={{ "aria-labelledby": labelId }}
-                  />
-                </TableCell>
-                <TableCell
-                  component="th"
-                  id={labelId}
-                  scope="row"
-                  padding="none"
-                >
-                  {data.creditorName}
-                </TableCell>
-                <TableCell align="right">{data.firstName}</TableCell>
-                <TableCell align="right">{data.lastName}</TableCell>
-                <TableCell align="right">
-                  {data.minPaymentPercentage.toFixed(2)}
-                </TableCell>
-                <TableCell align="right">${data.balance.toFixed(2)}</TableCell>
-              </TableRow>
-            );
-            })
-            : [] }
-          <AddDebt
-            onHandleClick={e => handleClick(e, bankData.id)}
-            onHandleChange={handleChange}
-          />
+                return (
+                  <TableRow
+                    hover
+                    onClick={e => handleClick(e, data.id)}
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={data.id}
+                    selected={isItemSelected}
+                    className={cssClass.checkbox}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={isItemSelected}
+                        inputProps={{ "aria-labelledby": labelId }}
+                      />
+                    </TableCell>
+                    <TableCell
+                      component="th"
+                      id={labelId}
+                      scope="row"
+                      padding="none"
+                    >
+                      {data.creditorName}
+                    </TableCell>
+                    <TableCell align="right">{data.firstName}</TableCell>
+                    <TableCell align="right">{data.lastName}</TableCell>
+                    <TableCell align="right">
+                      {data.minPaymentPercentage.toFixed(2)}
+                    </TableCell>
+                    <TableCell align="right">
+                      ${data.balance.toFixed(2)}
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            : []}
+          
+            <AddDebt
+              onHandleClick={e => handleClick(e, bankData.id)}
+              onHandleChange={handleChange}
+            />
+        
         </TableBody>
       </Table>
     </div>
